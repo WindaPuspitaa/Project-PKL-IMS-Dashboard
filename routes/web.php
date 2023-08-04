@@ -17,7 +17,8 @@ use App\Http\Controllers\{
     ReportController,
     PpcController,
     UserController,
-    DataMasterController
+    DataMasterController,
+    ChartController
 };
 
 use Illuminate\Support\Facades\Route;
@@ -54,8 +55,10 @@ Route::prefix('so')->name('so.')->group(function () {
 
 Route::prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Route::get('/chart', [ChartController::class, 'showChart']);
 });
 
+Route::get('/chart-data', [ChartController::class, 'showChart']);
 
 Route::get('/report', [ReportController::class, 'index'])->name('report');
 

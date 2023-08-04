@@ -29,10 +29,10 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-light-danger elevation-4" style="position: fixed;">
     <!-- Brand Logo -->
-    <div class="brand text-center">
-      <span class="brand-text font-weight-light text" style="font-size: 30px; color: black;"><b
-          style="color: #fe0000;">IMS</b>
-        Dashboard</span>
+
+    <div class="brand-link text-center">
+      <span class="brand-text font-weight-bold text-danger" style="font-size: 22px;">IMS <b
+          style="color: #000;">Dashboard</b></span>
     </div>
 
     <!-- Sidebar -->
