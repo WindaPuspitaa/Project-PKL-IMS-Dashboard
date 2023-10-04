@@ -62,7 +62,7 @@ export default {
     methods: {
         async fetchChartData() {
             try {
-                const response = await axios.get('/chart-data2');
+                const response = await axios.get('/data-sccTools');
                 console.log(response);
                 // this.series[0].data = response.data.dataSets.data;
                 this.series = response.data.dataSets.map(dataSet => ({

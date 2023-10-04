@@ -1,8 +1,6 @@
-<!-- Stacked Bar Chart Component & Fastsening -->
-
 <template>
     <div>
-        <apexchart ref="chart" type="bar" :options="chartOptions" :series="series" />
+        <apexchart ref="chart" type="bar" :options="chartOptions" :series="seriesData" />
 
         <!-- <h2>Bar Chart</h2>
         <apexchart type="bar" :options="chartOptions" :series="barChartSeries" />
@@ -14,11 +12,13 @@
   
 <script>
 import VueApexCharts from 'vue3-apexcharts';
-import axios from 'axios';
 
 export default {
     components: {
         apexchart: VueApexCharts,
+    },
+    props: {
+        chartData: Object,
     },
     data() {
         return {
@@ -48,40 +48,57 @@ export default {
                 legend: {
                     position: 'bottom'
                 },
-                colors: ['#cc2b4c', '#2d4353'],
-                dataLabels: {
-                    enabled: false
-                },
             },
         };
 
     },
     mounted() {
-        this.fetchChartData();
+        this.processChartData();
     },
     methods: {
-        async fetchChartData() {
-            try {
-                const response = await axios.get('/chart-data2');
-                console.log(response);
-                // this.series[0].data = response.data.dataSets.data;
-                this.series = response.data.dataSets.map(dataSet => ({
-                    name: dataSet.nama,
-                    data: dataSet.data,
-                }));
-                this.$refs.chart.updateOptions({
-                    xaxis: {
-                        categories: response.data.categories
-                    }
-                })
-                // console.log(this.chartOptions);
+        processChartData() {
+            const categories = this.chartData.categories;
 
-                // this.$forceUpdate();
-            } catch (error) {
-                console.error('Error fetching chart data:', error);
-            }
+            this.chartOptions.xaxis.categories = categories;
+
+            console.log(this.chartData);
+
+            this.series = this.chartData.dataSets.map(dataSet => ({
+                name: dataSet.nama,
+                data: dataSet.data,
+            }));
+
+            this.$refs.chart.updateSeries(this.series);
+            this.$refs.chart.updateOptions(this.chartOptions);
         },
     },
+
+    // computed: {
+    //     chartOptions() {
+    //         return {
+    //             chart: {
+    //                 height: 350,
+    //                 type: 'bar',
+    //             },
+    //             xaxis: {
+    //                 categories: [],
+    //             },
+    //         };
+
+    //     },
+    //     seriesData: [],
+    // },
+
+    // barChartSeries() {
+    //     return this.barChartData.datasets.map(dataset => ({
+    //         name: dataset.label,
+    //         data: dataset.data,
+    //     }));
+    // },
+    // pieChartSeries() {
+    //     return this.pieChartData.datasets[0].data;
+    // },
+
 };
 </script>
   

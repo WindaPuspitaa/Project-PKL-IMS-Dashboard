@@ -48,10 +48,10 @@ export default {
         },
         async fetchChartData() {
             try {
-                const response = await axios.get('/topComFas');
+                const response = await axios.get('/topTools');
                 // console.log(response);
                 this.chartSeries[0].data = response.data.series;
-                console.log(this.chartOptions);
+                // console.log(this.chartOptions);
                 this.$refs.chart.updateOptions({
                     xaxis: {
                         categories: response.data.categories

@@ -6,57 +6,52 @@
 
     <div class="form-box col-md-8 col-sm-10 col-xs-12" style="background-color: #ffffff; border-radius: 15px;">
       <div class="row">
-        <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12" style="background: url('images/bg.jpg'); background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  min-height: 100%;
-  border-radius: 15px;">
+        <div class="col-lg-7 col-md-6 col-sm-6 col-xs-12" style="background: url('images/logologin.png'); background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center center;
+          min-height: 100%;
+          border-radius: 15px;">
           <!-- You can add custom CSS styles for the background image here -->
         </div>
-        <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12">
+        <div class="col-lg-5 col-md-6 col-sm-6 col-xs-12 center-form">
           <!-- /.login-logo -->
-          <div class="card">
-            <div class="card-header text-center">
-              <h1><b style="color: #fe0000;">IMS</b> Dashboard </h1>
+          <form method="post" @submit.prevent="submit">
+            <errors-and-messages :errors="errors"></errors-and-messages>
+            <!-- Tambahkan teks "Login" di bawah ini -->
+            <div class="form-group">
+              <h1 class="text-center"><b>LOGIN</b></h1>
+              <label for="username">Username</label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" name="nip" v-model="form.name" placeholder="Username" />
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-envelope"></span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="card-body">
-              <form method="post" @submit.prevent="submit">
-                <errors-and-messages :errors="errors"></errors-and-messages>
-                <div class="form-group">
-                  <label for="username">Username</label>
-                  <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="nip" v-model="form.name" placeholder="Username" />
-                    <div class="input-group-append">
-                      <div class="input-group-text">
-                        <span class="fas fa-envelope"></span>
-                      </div>
-                    </div>
+            <!-- Akhir tambahan teks "Login" -->
+            <div class="form-group">
+              <label for="password">Password</label>
+              <div class="input-group mb-3">
+                <input type="password" class="form-control" name="password" id="password" v-model="form.password"
+                  placeholder="Password" />
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="password">Password</label>
-                  <div class="input-group mb-3">
-                    <input type="password" class="form-control" name="password" id="password" v-model="form.password"
-                      placeholder="Password" />
-                    <div class="input-group-append">
-                      <div class="input-group-text">
-                        <span class="fas fa-lock"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <!-- /.col -->
-                  <div class="col-12">
-                    <input type="submit" class="btn btn-danger btn-block" value="Login" />
-                  </div>
-                  <!-- /.col -->
-                </div>
-              </form>
+              </div>
             </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
+            <div class="row">
+              <!-- /.col -->
+              <div class="col-12">
+                <input type="submit" class="btn btn-danger btn-block" value="Login" />
+              </div>
+              <!-- /.col -->
+            </div>
+          </form>
+
         </div>
       </div>
     </div>
@@ -109,13 +104,18 @@ form {
   margin-top: 20px;
 }
 
-/* Add custom styles for the background image */
-/* .bg-image {
-  background-image: url('images/bg.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
-  min-height: 100%;
-  border-radius: 15px;
-} */
+.form-box {
+  margin-top: 20px;
+  box-shadow: 0px 0px 10px rgba(0.2, 0.2, 0.2, 0.2);
+  /* Tambahkan bayangan di sini */
+}
+
+.center-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  max-width: 70%;
+}
 </style>

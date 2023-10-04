@@ -25,6 +25,10 @@ export default {
                 },
                 xaxis: {
                     categories: [],
+                    labels: {
+                        rotate: 0,
+
+                    },
                 },
                 dataLabels: {
                     enabled: false
@@ -48,8 +52,8 @@ export default {
         },
         async fetchChartData() {
             try {
-                const response = await axios.get('/topComFas');
-                // console.log(response);
+                const response = await axios.get('/totalBiaya');
+                console.log(response);
                 this.chartSeries[0].data = response.data.series;
                 console.log(this.chartOptions);
                 this.$refs.chart.updateOptions({
@@ -67,4 +71,3 @@ export default {
     },
 };
 </script>
-  

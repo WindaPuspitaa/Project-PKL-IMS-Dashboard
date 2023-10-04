@@ -31,7 +31,8 @@
     <!-- Brand Logo -->
 
     <div class="brand-link text-center">
-      <span class="brand-text font-weight-bold text-danger" style="font-size: 22px;">IMS <b
+      <img src="../../../public/images/logoims.jpg" alt="Logo" height="30" class="me-2">
+      <span class="brand-text font-weight-bold text-danger" style="font-size: 22px;"><b
           style="color: #000;">Dashboard</b></span>
     </div>
 
@@ -51,17 +52,72 @@
 
           </li>
 
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a :href="$route('dashboard.dashboard')" class="nav-link"
               :class="$route().current('dashboard.dashboard') ? 'active' : ''">
               <i class="fas fa-tachometer-alt nav-icon"></i>
               <p>Dashboard</p>
             </a>
 
+          </li> -->
+
+          <li class="nav-item" :class="$route().current().indexOf('dashboard') >= 0 ? 'menu-open' : ''">
+            <a href="#" class="nav-link" :class="$route().current().indexOf('dashboard') >= 0 ? 'active' : ''">
+              <i class="fas fa-tachometer-alt nav-icon"></i>
+              <p>
+                Dashboard
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a :href="$route('dashboard.pageTotalBiaya')" class="nav-link"
+                  :class="$route().current('dashboard.pageTotalBiaya') ? 'active' : ''">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Total Biaya</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a :href="$route('dashboard.pageTopTenMat')" class="nav-link"
+                  :class="$route().current('dashboard.pageTopTenMat') ? 'active' : ''">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Top 10 Material</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a :href="$route('dashboard.pageRealDev')" class="nav-link"
+                  :class="$route().current('dashboard.pageRealDev') ? 'active' : ''">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Realisasi & Deviasi</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a :href="$route('dashboard.pageStok')" class="nav-link"
+                  :class="$route().current('dashboard.pageStok') ? 'active' : ''">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Stok</p>
+                </a>
+              </li>
+              <!-- <li class="nav-item">
+                <a :href="$route('dashboard.dashboard')" class="nav-link"
+                  :class="$route().current('dashboard.dashboard') ? 'active' : ''">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Dashboard</p>
+                </a>
+              </li> -->
+            </ul>
           </li>
 
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a :href="$route('report')" class="nav-link" :class="$route().current('report') ? 'active' : ''">
+              <i class="fas fa-file nav-icon"></i>
+              <p>Report</p>
+            </a>
+
+          </li> -->
+
+          <li class="nav-item">
+            <a :href="$route('pageReport')" class="nav-link" :class="$route().current('pageReport') ? 'active' : ''">
               <i class="fas fa-file nav-icon"></i>
               <p>Report</p>
             </a>
@@ -76,7 +132,8 @@
 
           </li> -->
 
-          <li class="nav-item" :class="$route().current().indexOf('data-master') >= 0 ? 'menu-open' : ''">
+          <li v-if="user && user.role_id === '1'" class="nav-item"
+            :class="$route().current().indexOf('data-master') >= 0 ? 'menu-open' : ''">
             <a href="#" class="nav-link" :class="$route().current().indexOf('data-master') >= 0 ? 'active' : ''">
               <i class="nav-icon fas fa-database"></i>
               <p>
@@ -102,136 +159,6 @@
             </ul>
           </li>
 
-          <!-- <li class="nav-item" :class="$route().current().indexOf('ppc') >= 0 ? 'menu-open' : ''">
-            <a href="#" class="nav-link" :class="$route().current().indexOf('ppc') >= 0 ? 'active' : ''">
-              <i class="nav-icon fas fa-inbox"></i>
-              <p>
-                Procurement
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a :href="$route('ppc.input_materialppc')" class="nav-link"
-                  :class="$route().current('ppc.input_materialppc') ? 'active' : ''">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Input Material</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a :href="$route('transaksi.lpbg')" class="nav-link"
-                  :class="$route().current('transaksi.lpbg') ? 'active' : ''">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Realisasi Material</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a :href="$route('transaksi.sttp')" class="nav-link"
-                  :class="$route().current('transaksi.sttp') ? 'active' : ''">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Create STTPP</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-          <li class="nav-item" :class="$route().current().indexOf('transaksi') >= 0 ? 'menu-open' : ''">
-            <a href="#" class="nav-link" :class="$route().current().indexOf('transaksi') >= 0 ? 'active' : ''">
-              <i class="nav-icon fas fa-exchange-alt"></i>
-              <p>
-                Transaksi
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a :href="$route('transaksi.input_material')" class="nav-link"
-                  :class="$route().current('transaksi.input_material') ? 'active' : ''">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Input Material</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a :href="$route('transaksi.lpbg')" class="nav-link"
-                  :class="$route().current('transaksi.lpbg') ? 'active' : ''">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Input LPBG / SJN</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a :href="$route('transaksi.sttp')" class="nav-link"
-                  :class="$route().current('transaksi.sttp') ? 'active' : ''">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Create STTPP</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item" :class="$route().current().indexOf('cek') >= 0 ? 'menu-open' : ''">
-            <a href="#" class="nav-link" :class="$route().current().indexOf('cek') >= 0 ? 'active' : ''">
-              <i class="fas fa-check"></i>
-              <p>
-                Pengecekan
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a :href="$route('cek.ceklpbg')" class="nav-link"
-                  :class="$route().current('cek.ceklpbg') ? 'active' : ''">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Cek Stok Barang</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a :href="$route('cek.ceksttp')" class="nav-link"
-                  :class="$route().current('cek.ceksttp') ? 'active' : ''">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Cek STTPP</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item" :class="$route().current().indexOf('master') >= 0 ? 'menu-open' : ''">
-            <a href="#" class="nav-link" :class="$route().current().indexOf('master') >= 0 ? 'active' : ''">
-              <i class="nav-icon fas fa-database"></i>
-              <p>
-                Data Master
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a :href="$route('master.PageProyek')" class="nav-link"
-                  :class="$route().current('master.PageProyek') ? 'active' : ''">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Proyek</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a :href="$route('master.PageMaster')" class="nav-link"
-                  :class="$route().current('master.PageMaster') ? 'active' : ''">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Lokasi</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a :href="$route('master.PageGedung')" class="nav-link"
-                  :class="$route().current('master.PageGedung') ? 'active' : ''">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Gedung</p>
-                </a>
-              </li>
-              <li class="nav-item" style="display: none!important">
-                <a :href="$route('master.PageUser')" class="nav-link"
-                  :class="$route().current('master.PageUser') ? 'active' : ''">
-                  <i class="far fa-user nav-icon"></i>
-                  <p>User</p>
-                </a>
-              </li>
-            </ul>
-          </li> -->
-
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -248,6 +175,8 @@ export default {
   name: "AppHeader",
   setup() {
     const user = computed(() => usePage().props.value.auth.user);
+
+    console.log(user);
 
     return {
       user

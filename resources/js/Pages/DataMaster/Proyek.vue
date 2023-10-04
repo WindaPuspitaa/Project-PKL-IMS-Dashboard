@@ -29,14 +29,24 @@
             <!-- end modal -->
 
             <div class="card">
-                <div class="card-header">
-                    <div class="card-tools">
-                        <Button label="Tambah" icon="pi pi-plus" class="p-button-success p-mr-2" @click="tambah" />
-                    </div>
-                </div>
+                <Toolbar>
+                    <template #start>
+                        <Button label="Tambah" icon="pi pi-plus" class="p-button-primary p-mr-2" @click="tambah" />
+                    </template>
 
-                <DataTable :value="dataProyek.data" :lazy="true" :paginator="true" :rows="5" v-model:filters="filters"
-                    ref="dt" :totalRecords="dataProyek.total" :loading="loading" @page="onPage($event)"
+                    <template #end>
+                        <!-- <span class="p-input-icon-left">
+                            <i class="pi pi-search" />
+                            <InputText placeholder="Search..." />
+                        </span> -->
+                        <InputText placeholder="Search..." v-model="search" style="font-size: 13px;" />
+                        <Button icon="pi pi-search" iconPos="right" class="p-button-sm" @click="onSearch" />
+                    </template>
+                </Toolbar>
+
+                <DataTable :value="dataProyek.data" :lazy="true" :paginator="true" :rows="dataPerPage"
+                    v-model:filters="filters" ref="dt" :totalRecords="dataProyek.total" :loading="loading"
+                    @page="onPage($event)"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" responsiveLayout="scroll">
                     <template #empty>
@@ -45,7 +55,7 @@
 
                     <Column field="no" header="No" :sortable="false" style="min-width:2rem">
                         <template #body="slotProps">
-                            {{ ((lazyParams.page * 5) + slotProps.index) + 1 }}
+                            {{ ((lazyParams.page * dataPerPage) + slotProps.index) + 1 }}
                         </template>
                     </Column>
                     <Column field="kode_proyek" header="Kode Proyek" :sortable="false" style="min-width:16rem"></Column>
@@ -55,7 +65,7 @@
                             <Button icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
                                 @click="editProyek(slotProps.data)" style="margin-right: 10px;" />
                             <Button @click="onDelete(slotProps.data)" icon="pi pi-trash"
-                                class="p-button-rounded p-button-warning" />
+                                class="p-button-rounded p-button-danger" />
                         </template>
                     </Column>
                 </DataTable>
@@ -73,6 +83,7 @@ import { computed, inject } from "vue";
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
 import ColumnGroup from 'primevue/columngroup';
+import Toolbar from 'primevue/toolbar';
 import { simpanProyek, getProyek, hapusProyek } from '../../Api/dataMaster.api';
 export default {
     name: "master_lokasi",
@@ -92,6 +103,9 @@ export default {
             product: {},
             loading: false,
             dataProyek: [],
+            dataPerPage: 5,
+            totalData: 0,
+            search: '',
             display: false,
             selectedProducts: null,
             filters: {},
@@ -120,11 +134,16 @@ export default {
     methods: {
         async loadLazyData() {
             this.loading = true;
-            const res = await getProyek({ page: this.lazyParams.page + 1 })
+            const res = await getProyek({ page: this.lazyParams.page + 1, search: this.search })
 
             this.dataProyek = res.data.data;
+            this.totalData = res.data.total;
 
             this.loading = false;
+        },
+        onSearch() {
+            this.totalData = 0;
+            this.loadLazyData();
         },
         onPage(event) {
             this.lazyParams = event;
@@ -178,6 +197,7 @@ export default {
     },
     mounted() {
         this.dataProyek = this.$page.props.proyek;
+        this.totalData = this.$page.props.total;
 
         console.log(this.dataProyek)
     }

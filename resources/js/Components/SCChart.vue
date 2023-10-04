@@ -1,36 +1,34 @@
-<!-- StackedColumnChart.vue -->
-
 <template>
-    <layout>
-        <div>
-            <apexchart type="bar" :options="chartOptions" :series="chartSeries" />
-        </div>
-    </layout>
+    <apexchart :options="chartOptions" :series="chartSeries" type="bar" height="400" />
 </template>
   
 <script>
+import VueApexCharts from 'vue3-apexcharts';
+
 export default {
-    data() {
-        return {
-            chartOptions: {
+    components: {
+        apexchart: VueApexCharts,
+    },
+    props: ['chartData'],
+    computed: {
+        chartOptions() {
+            return {
                 chart: {
-                    stacked: true,
+                    id: 'bar-chart',
                 },
                 xaxis: {
-                    categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5'],
+                    categories: this.chartData.map(item => item.material),
                 },
-            },
-            chartSeries: [
+            };
+        },
+        chartSeries() {
+            return [
                 {
-                    name: 'Series 1',
-                    data: [30, 40, 25, 50, 49],
+                    name: 'Harga',
+                    data: this.chartData.map(item => item.harga_per_item),
                 },
-                {
-                    name: 'Series 2',
-                    data: [23, 12, 54, 61, 32],
-                },
-            ],
-        };
+            ];
+        },
     },
 };
 </script>
