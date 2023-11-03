@@ -44,20 +44,22 @@
                     </template>
                 </Toolbar>
 
-                <DataTable :value="dataProyek.data" :lazy="true" :paginator="true" :rows="dataPerPage"
+                <DataTable :value="dataProyek.data" :lazy="true" :paginator="true" :rows="dataProyek.per_page"
                     v-model:filters="filters" ref="dt" :totalRecords="dataProyek.total" :loading="loading"
                     @page="onPage($event)"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" responsiveLayout="scroll">
-                    <template #empty>
-                        No records found
-                    </template>
-
                     <Column field="no" header="No" :sortable="false" style="min-width:2rem">
                         <template #body="slotProps">
-                            {{ ((lazyParams.page * dataPerPage) + slotProps.index) + 1 }}
+                            {{ slotProps.index + 1 }}
                         </template>
                     </Column>
+
+                    <!-- <Column field="no" header="No" :sortable="false" style="min-width:2rem">
+                        <template #body="slotProps">
+                            {{ ((lazyParams.page - 1)) + slotProps.index + 1 }}
+                        </template>
+                    </Column> -->
                     <Column field="kode_proyek" header="Kode Proyek" :sortable="false" style="min-width:16rem"></Column>
                     <Column field="nama_proyek" header="Nama Proyek" :sortable="false" style="min-width:16rem"></Column>
                     <Column header="Action" :exportable="false">
@@ -68,6 +70,9 @@
                                 class="p-button-rounded p-button-danger" />
                         </template>
                     </Column>
+                    <template #empty>
+                        No records found
+                    </template>
                 </DataTable>
             </div>
         </div>
@@ -103,7 +108,7 @@ export default {
             product: {},
             loading: false,
             dataProyek: [],
-            dataPerPage: 5,
+            // dataPerPage: 5,
             totalData: 0,
             search: '',
             display: false,
@@ -122,7 +127,7 @@ export default {
                 nama_proyek: null
             },
             lazyParams: {
-                page: 0
+                page: 1
             },
             statuses: [
                 { label: 'INSTOCK', value: 'instock' },
@@ -134,7 +139,7 @@ export default {
     methods: {
         async loadLazyData() {
             this.loading = true;
-            const res = await getProyek({ page: this.lazyParams.page + 1, search: this.search })
+            const res = await getProyek({ page: this.lazyParams.page, search: this.search })
 
             this.dataProyek = res.data.data;
             this.totalData = res.data.total;
@@ -146,7 +151,7 @@ export default {
             this.loadLazyData();
         },
         onPage(event) {
-            this.lazyParams = event;
+            this.lazyParams.page = event.page + 1;
             this.loadLazyData();
         },
         tambah() {

@@ -30,10 +30,14 @@
   <aside class="main-sidebar sidebar-light-danger elevation-4" style="position: fixed;">
     <!-- Brand Logo -->
 
-    <div class="brand-link text-center">
+    <!-- <div class="brand-link text-center">
       <img src="../../../public/images/logoims.jpg" alt="Logo" height="30" class="me-2">
       <span class="brand-text font-weight-bold text-danger" style="font-size: 22px;"><b
           style="color: #000;">Dashboard</b></span>
+    </div> -->
+    <div class="brand-link text-center">
+      <span class="brand-text font-weight-bold text-danger" style="font-size: 20px;"><b style="color: #000;">Monitoring PO
+          Logistik</b></span>
     </div>
 
     <!-- Sidebar -->
@@ -84,7 +88,7 @@
                   <p>Top 10 Material</p>
                 </a>
               </li>
-              <li class="nav-item">
+              <!-- <li class="nav-item">
                 <a :href="$route('dashboard.pageRealDev')" class="nav-link"
                   :class="$route().current('dashboard.pageRealDev') ? 'active' : ''">
                   <i class="far fa-circle nav-icon"></i>
@@ -96,6 +100,13 @@
                   :class="$route().current('dashboard.pageStok') ? 'active' : ''">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Stok</p>
+                </a>
+              </li> -->
+              <li class="nav-item">
+                <a :href="$route('dashboard.pageMonitoring')" class="nav-link"
+                  :class="$route().current('dashboard.pageMonitoring') ? 'active' : ''">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Monitoring</p>
                 </a>
               </li>
               <!-- <li class="nav-item">

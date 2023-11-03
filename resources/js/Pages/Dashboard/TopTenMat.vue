@@ -82,7 +82,7 @@ export default {
                 },
             },
             chartSeriesRawMaterial: [{
-                name: 'Data Series',
+                name: 'Price',
                 data: [],
             }],
             chartOptionsTools: {
@@ -101,7 +101,7 @@ export default {
                 },
             },
             chartSeriesTools: [{
-                name: 'Data Series',
+                name: 'Price',
                 data: [],
             }],
             chartOptionsComponent: {
@@ -120,7 +120,7 @@ export default {
                 },
             },
             chartSeriesComponent: [{
-                name: 'Data Series',
+                name: 'Price',
                 data: [],
             }],
             chartOptionsConsumable: {
@@ -139,7 +139,7 @@ export default {
                 },
             },
             chartSeriesConsumable: [{
-                name: 'Data Series',
+                name: 'Price',
                 data: [],
             }],
         };

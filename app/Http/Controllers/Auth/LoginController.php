@@ -23,7 +23,7 @@ class LoginController extends Controller
 
         $credentials['deleted_at'] = null;
 
-        if(Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
             // return redirect()->intended('/');
@@ -31,11 +31,12 @@ class LoginController extends Controller
         }
 
         return back()->withErrors([
-            'name' => 'The provided credentials do not match our records.',
+            'name' => 'Username atau password salah',
         ]);
     }
 
-    public function username(){
+    public function username()
+    {
         return 'name';
     }
 

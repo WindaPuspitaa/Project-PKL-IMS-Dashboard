@@ -3,13 +3,6 @@
         <div>
             <div class="form-group">
                 <label for="wbs_element" class="control-label" style="display: block; margin-top: 1rem;">Project:</label>
-                <!-- <select name="wbs_element" id="wbs_element" class="custom-select custom-select-sm"
-                    placeholder="Pilih WBS Element" v-model="selectedWbs" @change="fetchChartData"> -->
-                <!-- <option v-for="wbs in wbs_elements" :key="wbs.id_wbs" :value="wbs.id_wbs">{{ wbs.name }}</option> -->
-                <!-- <option value="M1-22041.4300003938">PENGADAAN 612 KERETA REPLACEMENT PT KAI</option>
-                    <option value="M1-22041.8000122041">AFTERSALES PGDN 612 REPLACEMENT PT KAI</option>
-                    <option value="C789">Nama Proyek 3</option>
-                </select> -->
                 <div class="card flex justify-content-center">
                     <Dropdown v-model="selectedWbs" :options="wbs_options" @Change="fetchChartData" optionLabel="label"
                         optionValue="value" />
@@ -34,59 +27,42 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card bg-gradient">
-                        <div class="card-header">
-                            <h5 class="card-title">Tabel</h5>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Customer PO</th>
-                                        <th>PO Vendor</th>
-                                        <th>Material Type</th>
-                                        <th>Material</th>
-                                        <th>Description</th>
-                                        <th>Specification</th>
-                                        <th>PO QTY</th>
-                                        <th>UOM</th>
-                                        <th>Price</th>
-                                        <th>Currency</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="po in tabelPo" :key="po.purchasing_document">
-                                        <td>{{ po.purchasing_document }}</td>
-                                        <td>{{ po.vendor }}</td>
-                                        <td>{{ po.material_type }}</td>
-                                        <td>{{ po.material }}</td>
-                                        <td>{{ po.description }}</td>
-                                        <td>{{ po.specification }}</td>
-                                        <td>{{ po.order_qty }}</td>
-                                        <td>{{ po.uom }}</td>
-                                        <td>{{ po.price_to_be_delivered }}</td>
-                                        <td>{{ po.currency }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="card-footer">
-                            <ul class="pagination pagination-sm m-0 float-left">
-                                <li class="page-item"><a href="#" class="page-link">>></a></li>
-                                <li class="page-item"><a href="#" class="page-link">1</a></li>
-                                <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                <li class="page-item"><a href="#" class="page-link">3</a></li>
-                                <li class="page-item"><a href="#" class="page-link">>></a></li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="form-group">
+                <Button label="Show/Hide Table" severity="secondary" @click="toggleTable" />
+            </div>
+
+            <!-- Tabel -->
+            <div v-if="showTable">
+                <div class="form-group">
+                    <DataTable :value="data.data" :lazy="true" :paginator="true" :rows="data.per_page"
+                        v-model:filters="filters" ref="dt" :totalRecords="data.total" :loading="loading"
+                        @page="onPage($event)"
+                        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
+                        currentPageReportTemplate="Showing {first} to {last} of {totalRecords}" responsiveLayout="scroll">
+                        <template #empty>
+                            No records found
+                        </template>
+
+                        <Column field="no" header="No" :sortable="false" style="min-width:2rem">
+                            <template #body="slotProps">
+                                {{ slotProps.index + 1 }}
+                            </template>
+                        </Column>
+                        <Column field="purchasing_document" header="Customer PO" :sortable="false" style="min-width:10rem">
+                        </Column>
+                        <Column field="vendor" header="PO Vendor" :sortable="false" style="min-width:10rem"></Column>
+                        <Column field="material_type" header="Material Type" :sortable="false" style="min-width:10rem">
+                        </Column>
+                        <Column field="material" header="Material" :sortable="false" style="min-width:10rem"></Column>
+                        <Column field="description" header="Description" :sortable="false" style="min-width:10rem"></Column>
+                        <Column field="specification" header="Specification" :sortable="false" style="min-width:10rem">
+                        </Column>
+                        <Column field="order_qty" header="PO QTY" :sortable="false" style="min-width:10rem"></Column>
+                        <Column field="uom" header="UOM" :sortable="false" style="min-width:10rem"></Column>
+                        <Column field="price_to_be_delivered" header="Price" :sortable="false" style="min-width:10rem">
+                        </Column>
+                        <Column field="currency" header="Currency" :sortable="false" style="min-width:10rem"></Column>
+                    </DataTable>
                 </div>
             </div>
         </div>
@@ -98,6 +74,7 @@ import Layout from "../../Partials/Layout";
 import VueApexCharts from 'vue3-apexcharts';
 import axios from "axios";
 import PieTotalBiaya from '../../Components/PieTotalBiaya.vue';
+import { getData } from '../../Api/dashboard.api';
 
 export default {
     components: {
@@ -106,14 +83,21 @@ export default {
         PieTotalBiaya,
     },
     props: {
-        tabelPo: Array,
+        tabelPo: Object,
         wbs_elements: Array,
     },
     data() {
         return {
             // selectedWbs: '1',
+            data: [],
+            loading: false,
+            totalData: 0,
             selectedWbs: 'M1-22041.4300003938',
             selectedCity: null,
+            showTable: true,
+            lazyParams: {
+                page: 1
+            },
             wbs: [
                 { name: 'PENGADAAN 612 KERETA REPLACEMENT PT KAI', code: 'M1-22041.4300003938' },
                 { name: 'AFTERSALES PGDN 612 REPLACEMENT PT KAI', code: 'M1-22041.8000122041' },
@@ -164,10 +148,23 @@ export default {
             ];
         },
     },
-    mounted() {
-        this.fetchChartData();
-    },
     methods: {
+        async loadLazyData() {
+            this.loading = true;
+            const res = await getData({ page: this.lazyParams.page })
+            // console.log(res);
+            this.data = res.data.data;
+            this.totalData = res.data.total;
+
+            this.loading = false;
+        },
+        onPage(event) {
+            this.lazyParams.page = event.page + 1;
+            this.loadLazyData();
+        },
+        toggleTable() {
+            this.showTable = !this.showTable;
+        },
         async fetchChartData() {
             try {
                 const response = await axios.get(`/totalBiaya/${this.selectedWbs}`);
@@ -196,6 +193,13 @@ export default {
                 console.error('Error fetching chart data:', error);
             }
         },
+    },
+    mounted() {
+        this.data = this.$page.props.tabelPo;
+        this.totalData = this.$page.props.total;
+        this.fetchChartData();
+
+        console.log(this.data);
     },
 };
 </script>

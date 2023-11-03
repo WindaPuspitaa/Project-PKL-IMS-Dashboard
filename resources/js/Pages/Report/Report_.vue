@@ -106,13 +106,15 @@
                                         <label for="wbs_element" class="control-label"
                                             style="display: block; margin-top: 1rem;">Project:</label>
                                         <Dropdown v-model="selectedProject" :options="wbs_options" @change="filterData"
-                                            optionLabel="label" optionValue="value" placeholder="Select a Project" />
+                                            optionLabel="label" optionValue="value" style="width: 400px;"
+                                            placeholder="Select a Project" />
                                     </div>
                                     <div class="col">
                                         <label for="year" class="control-label"
                                             style="display: block; margin-top: 1rem;">Tahun:</label>
                                         <Dropdown v-model="selectedYear" :options="yearOptions" @change="filterDataYear"
-                                            optionLabel="label" optionValue="value" placeholder="Select a Year" />
+                                            optionLabel="label" optionValue="value" style="width: 200px;"
+                                            placeholder="Select a Year" />
                                     </div>
                                 </div>
                                 <!-- <Dropdown v-model="selectedProject" :options="wbs_options" @change="filterData"
@@ -139,7 +141,7 @@
                             </ul>
                         </template>
                     </Toolbar>
-                    <DataTable :value="data.data" :lazy="true" :paginator="true" :rows="dataPerPage"
+                    <DataTable :value="data.data" :lazy="true" :paginator="true" :rows="data.per_page"
                         v-model:filters="filters" ref="dt" :totalRecords="data.total" :loading="loading"
                         @page="onPage($event)"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
@@ -150,7 +152,7 @@
 
                         <Column field="no" header="No" :sortable="false" style="min-width:2rem">
                             <template #body="slotProps">
-                                {{ (((lazyParams.page - 1) * dataPerPage) + slotProps.index) + 1 }}
+                                {{ slotProps.index + 1 }}
                             </template>
                         </Column>
                         <Column field="wbs_element" header="WBS Element" :sortable="false" v-if="filters.wbs_element"
@@ -219,7 +221,7 @@ export default {
     data() {
         return {
             data: [],
-            dataPerPage: 10,
+            // dataPerPage: 10,
             totalData: 0,
             loading: false,
             selectedProject: null,
@@ -258,7 +260,7 @@ export default {
             this.loading = false;
         },
         onPage(event) {
-            this.lazyParams = event;
+            this.lazyParams.page = event.page + 1;
             this.loadLazyData();
         },
         onSort(event) {

@@ -62,7 +62,7 @@
                     </template>
                 </Toolbar>
 
-                <DataTable :value="dataUser.data" :lazy="true" :paginator="true" :rows="dataPerPage"
+                <DataTable :value="dataUser.data" :lazy="true" :paginator="true" :rows="dataUser.per_page"
                     v-model:filters="filters" ref="dt" :totalRecords="dataUser.total" :loading="loading"
                     @page="onPage($event)"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport"
@@ -73,7 +73,7 @@
 
                     <Column field="no" header="No" :sortable="false" style="min-width:2rem">
                         <template #body="slotProps">
-                            {{ (((lazyParams.page - 1) * dataPerPage) + slotProps.index) + 1 }}
+                            {{ slotProps.index + 1 }}
                         </template>
                     </Column>
                     <Column field="name" header="Nama" :sortable="false" style="min-width:10rem"></Column>
@@ -127,7 +127,7 @@ export default {
             product: {},
             loading: false,
             dataUser: [],
-            dataPerPage: 5,
+            // dataPerPage: 5,
             totalData: 0,
             search: '',
             display: false,
@@ -226,7 +226,7 @@ export default {
 
         this.roles = this.$page.props.roles;
 
-        // console.log(this.dataUser.total)
+        console.log(this.dataUser);
     }
 }
 </script>

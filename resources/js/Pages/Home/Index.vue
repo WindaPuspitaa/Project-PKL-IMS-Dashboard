@@ -4,8 +4,7 @@
             <div
                 style="background-color:white;height: 200px;width: 100%;display: flex;justify-content: center;align-items: center;flex-direction: column;margin-top: 10rem">
                 <label for="">Selamat Datang</label>
-                <span class="brand-text font-weight-light text" style="font-size: 75px;"><b style="color: #fe0000;">IMS</b>
-                    Dashboard</span>
+                <span class="brand-text font-weight-light text" style="font-size: 75px;">Monitoring PO Logistik</span>
                 <small><b>Made By Tim Divisi Teknologi Informasi</b> </small>
             </div>
         </div>

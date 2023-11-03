@@ -52,6 +52,7 @@ Route::prefix('dashboard')->name('dashboard.')->group(function () {
     Route::get('/top10-material', [DashboardController::class, 'pageTopTenMat'])->name('pageTopTenMat');
     Route::get('/realisasi-deviasi', [DashboardController::class, 'pageRealDev'])->name('pageRealDev');
     Route::get('/stok', [DashboardController::class, 'pageStok'])->name('pageStok');
+    Route::get('/monitoring', [DashboardController::class, 'pageMonitoring'])->name('pageMonitoring');
 
     Route::get('/total-biaya/export-excel', [DashboardController::class, 'exportExcel'])->name('exportExcel');
 });
@@ -66,6 +67,9 @@ Route::get('/stokRawMat', [DashboardController::class, 'stokRawMat']);
 Route::get('/stokComFas', [DashboardController::class, 'stokComFas']);
 Route::get('/stokTools', [DashboardController::class, 'stokTools']);
 Route::get('/stokConsum', [DashboardController::class, 'stokConsum']);
+
+Route::get('/statusCounts', [DashboardController::class, 'statusCounts']);
+Route::get('/qtyDiterima', [DashboardController::class, 'qtyDiterima']);
 
 // Route data dari ChartController
 Route::get('/chart-data', [ChartController::class, 'showChart']);

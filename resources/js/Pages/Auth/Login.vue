@@ -106,6 +106,7 @@ form {
 
 .form-box {
   margin-top: 20px;
+  max-width: 60%;
   box-shadow: 0px 0px 10px rgba(0.2, 0.2, 0.2, 0.2);
   /* Tambahkan bayangan di sini */
 }
@@ -116,6 +117,6 @@ form {
   align-items: center;
   justify-content: center;
   height: 70vh;
-  max-width: 70%;
+  max-width: 40%;
 }
 </style>
